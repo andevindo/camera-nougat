@@ -54,6 +54,18 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("path", mCurrentPhotoPath);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mCurrentPhotoPath = savedInstanceState.getString("path");
+        mImage.setImageBitmap(scaleBitmap(getCurrentPhotoBitmap(), 0.5f));
+    }
 
     void show(int requestCode) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -67,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
+    
     boolean checkPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 != PERMISSION_GRANTED
